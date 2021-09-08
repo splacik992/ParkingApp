@@ -9,30 +9,12 @@ import com.google.zxing.common.HybridBinarizer;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Qrcode {
-    private String data;
-    private String path;
-    private String charset;
-    private int height;
-    private int width;
-
-    public Qrcode(String data, String path, String charset, int height, int width) {
-        this.data = data;
-        this.path = path;
-        this.charset = charset;
-        this.height = height;
-        this.width = width;
-    }
-
-    public void createQR() throws IOException, WriterException {
-        createQR(this.path);
-    }
-
-    public void createQR(String path)
+    public static void createQR(String data, String path, int height, int width)
             throws WriterException, IOException {
+        String charset = "UTF-8";
 
         BitMatrix matrix = new MultiFormatWriter().encode(
                 new String(data.getBytes(charset), charset),
@@ -44,7 +26,7 @@ public class Qrcode {
                 new File(path));
     }
 
-    public String readQR()
+    public static String readQR(String path)
             throws IOException, NotFoundException {
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(
                 new BufferedImageLuminanceSource(
