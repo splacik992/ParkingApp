@@ -1,14 +1,10 @@
 package com.envelo.ParkingApp.model.entity;
 
-import com.google.zxing.WriterException;
-
 import javax.persistence.*;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 @Entity
 public class Reservation {
@@ -46,8 +42,7 @@ public class Reservation {
                 hashtext = "0" + hashtext;
             }
             return hashtext;
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
