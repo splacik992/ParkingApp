@@ -1,16 +1,21 @@
 package com.envelo.ParkingApp.model.entity;
 
+import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
+@Entity
 public class Parking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private int numOfSpots;
-    private List<Reservation> permanentSpot;
+    @OneToMany
     private List<Reservation> reservations;
 
-    public Parking(int numOfSpots, List<Reservation> permanentSpot, List<Reservation> reservations) {
+    public Parking(int numOfSpots) {
         this.numOfSpots = numOfSpots;
-        this.permanentSpot = permanentSpot;
-        this.reservations = reservations;
+        reservations = new LinkedList<>();
     }
 
     public int getNumOfSpots() {
@@ -21,19 +26,15 @@ public class Parking {
         this.numOfSpots = numOfSpots;
     }
 
-    public List<Reservation> getPermanentSpot() {
-        return permanentSpot;
-    }
-
-    public void setPermanentSpot(List<Reservation> permanentSpot) {
-        this.permanentSpot = permanentSpot;
-    }
-
     public List<Reservation> getReservations() {
         return reservations;
     }
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
     }
 }
