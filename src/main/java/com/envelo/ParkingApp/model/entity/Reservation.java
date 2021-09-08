@@ -1,7 +1,14 @@
 package com.envelo.ParkingApp.model.entity;
 
+import com.google.zxing.WriterException;
+
 import javax.persistence.*;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Entity
 public class Reservation {
@@ -9,7 +16,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Date date;
-    private String qrHashcode;
+    private String hashCode;
     @OneToOne
     private User user;
     private int parkingSpot;
@@ -18,12 +25,31 @@ public class Reservation {
         this.date = date;
         this.user = user;
         this.parkingSpot = parkingSpot;
-        qrHashcode = generateHashCode();
+        hashCode = generateHashCode();
     }
 
     private String generateHashCode() {
+        String sb = "Date:" + date +
+                "Email:" + user.getEmail() +
+                "SpotId:" + parkingSpot;
+        String hash = getMd5(sb);
+        return String.valueOf(hash);
+    }
 
-        return null;
+    private static String getMd5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getParkingSpot() {
@@ -43,11 +69,11 @@ public class Reservation {
     }
 
     public String getQrHashcode() {
-        return qrHashcode;
+        return hashCode;
     }
 
-    public void setQrHashcode(String qrHashcode) {
-        this.qrHashcode = qrHashcode;
+    public void setQrHashcode(String hashCode) {
+        this.hashCode = hashCode;
     }
 
     public User getUser() {
@@ -57,4 +83,5 @@ public class Reservation {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
