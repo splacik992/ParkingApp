@@ -8,19 +8,16 @@
 <html>
 <body>
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
-
 <c:forEach items="${currentUserList}" var="i" varStatus="status">
 
 </c:forEach>
 
-    <form method="post" action="/api/reservation">
+    <form method="post" action="api/reservation/{userId}/{spotId}/{parkingId}">
 
               <label for="spotlist">Wybierz miejsce parkingowe</label>
               <input list="spots" name="spotlist" id="spotlist">
               <datalist id="spots">
-                <c:forEach items="${parking.freeSlots}" var="slot">
+                <c:forEach items="${freeSpots}" var="slot">
                     <option value="${slot}">
                 </c:forEach>
               </datalist>

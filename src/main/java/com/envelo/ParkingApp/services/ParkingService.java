@@ -8,6 +8,8 @@ import com.envelo.ParkingApp.repository.ParkingRepository;
 import com.envelo.ParkingApp.repository.ReservationRepository;
 import com.envelo.ParkingApp.repository.UserRepository;
 import com.google.zxing.WriterException;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class ParkingService {
     private final EmailService emailService;
 
 
-    public ParkingService(UserRepository userRepository, ParkingRepository parkingRepository, ParkingRepository parkingRepository1, ReservationRepository reservationRepository, EmailService emailService) {
+    public ParkingService(UserRepository userRepository, ParkingRepository parkingRepository1, ReservationRepository reservationRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.parkingRepository = parkingRepository1;
         this.reservationRepository = reservationRepository;
@@ -62,8 +64,23 @@ public class ParkingService {
         Parking parking = parkingRepository.findParkingById(parkingId);
         Reservation reservation = new Reservation(date, user, spotId);
         parking.addReservation(reservation);
-        reservationRepository.save(reservation);
+        if(isReservationNotTaken(reservation.getId())){
+            reservationRepository.save(reservation);
+        }
         Qrcode.createQR(reservation.getQrHashcode(), "qrcode.png", 200, 200);
         emailService.prepareAndSend(user.getEmail(), "<h1>W załączniku masz potrzebny Qrcode!</h1>", "Twój bilet");
+    }
+
+    public boolean isReservationNotTaken(long reservationId){
+        return reservationRepository.findById(reservationId).isEmpty();
+    }
+    @EventListener(ApplicationReadyEvent.class)
+    public void fillUserDB() {
+        userRepository.save(new User(1L,"a","r.paliwoda992@gmail.pl","a"));
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void fillParkingDB() {
+        parkingRepository.save(new Parking(50));
     }
 }

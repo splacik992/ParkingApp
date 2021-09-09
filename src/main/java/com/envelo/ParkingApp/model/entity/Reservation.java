@@ -10,11 +10,20 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String date;
     private String hashCode;
     @OneToOne
     private User user;
     private int parkingSpot;
+
+    private String generateHashCode() {
+        String sb = "Date:" + date +
+                "Email:" + user.getEmail() +
+                "SpotId:" + parkingSpot;
+        String hash = getMd5(sb);
+        return String.valueOf(hash);
+    }
 
     public Reservation() {
     }
@@ -24,14 +33,6 @@ public class Reservation {
         this.user = user;
         this.parkingSpot = parkingSpot;
         hashCode = generateHashCode();
-    }
-
-    private String generateHashCode() {
-        String sb = "Date:" + date +
-                "Email:" + user.getEmail() +
-                "SpotId:" + parkingSpot;
-        String hash = getMd5(sb);
-        return String.valueOf(hash);
     }
 
     private static String getMd5(String input) {
@@ -47,6 +48,22 @@ public class Reservation {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getHashCode() {
+        return hashCode;
+    }
+
+    public void setHashCode(String hashCode) {
+        this.hashCode = hashCode;
     }
 
     public int getParkingSpot() {

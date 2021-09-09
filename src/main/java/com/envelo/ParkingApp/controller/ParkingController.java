@@ -5,9 +5,11 @@ import com.envelo.ParkingApp.services.ParkingService;
 import com.google.zxing.WriterException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 
 @Controller
@@ -23,30 +25,9 @@ public class ParkingController {
     }
 
     @GetMapping
-    public String getIndexView() {
+    public String getIndexView(Model model) {
+        model.addAttribute("freeSpots" , parkingService.getFreeSpots(1));
         return "index";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showLoginPage() {
-        return "login";
-    }
-
-    @RequestMapping(value = "api/ticket", method = RequestMethod.GET)
-    public String sendEmailWithTicket() throws MessagingException, IOException, WriterException {
-        emailService.sendEmailWithAttachment();
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "api/admin/parking/", method = RequestMethod.GET)
-    public String getAdminBoard() {
-        return "adminBoard";
-    }
-
-    @RequestMapping(value = "api/admin/parking/{numOfSpots}", method = RequestMethod.POST)
-    public String setAmountOfSpotsInParking(@PathVariable Integer numOfSpots) {
-        parkingService.createNewParking(numOfSpots);
-        return "redirect:/";
     }
 
     @RequestMapping(value = "api/reservation", method = RequestMethod.GET)
@@ -55,12 +36,13 @@ public class ParkingController {
     }
 
     @RequestMapping(value = "api/reservation/{userId}/{spotId}/{parkingId}", method = RequestMethod.GET)
-    public String makeReservation(@PathVariable Long userId, @PathVariable Integer spotId, @PathVariable Long parkingId)
+    public String makeReservation(@PathVariable Integer spotId)
             throws IOException, WriterException {
-        parkingService.generateReservation(userId, spotId, parkingId);
+        parkingService.generateReservation(1, spotId, 1);
 
         return "redirect:/";
     }
+
 
 
 }

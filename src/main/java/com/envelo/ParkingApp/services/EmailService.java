@@ -4,7 +4,6 @@ import com.envelo.ParkingApp.model.entity.Qrcode;
 import com.envelo.ParkingApp.repository.UserRepository;
 import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,7 +15,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystem;
 
 @Service
 public class EmailService {

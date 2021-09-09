@@ -10,13 +10,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-
     private String email;
-
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    public User(Long id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
