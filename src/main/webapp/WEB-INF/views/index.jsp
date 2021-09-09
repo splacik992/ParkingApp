@@ -12,13 +12,13 @@
 
 </c:forEach>
 
-    <form method="post" action="api/reservation/{userId}/{spotId}/{parkingId}">
+    <form method="post" action="/">
 
               <label for="spotlist">Wybierz miejsce parkingowe</label>
-              <input list="spots" name="spotlist" id="spotlist">
-              <datalist id="spots">
-                <c:forEach items="${freeSpots}" var="slot">
-                    <option value="${slot}">
+              <input list="spots" name="spotId" id="spotList">
+              <datalist id="spots" name="">
+                <c:forEach items="${freeSpots}" var="slot" >
+                    <option value="${slot}" >
                 </c:forEach>
               </datalist>
               <input type="submit">

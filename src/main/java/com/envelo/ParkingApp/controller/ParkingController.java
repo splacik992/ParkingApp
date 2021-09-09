@@ -5,10 +5,7 @@ import com.envelo.ParkingApp.services.ParkingService;
 import com.google.zxing.WriterException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -30,19 +27,12 @@ public class ParkingController {
         return "index";
     }
 
-    @RequestMapping(value = "api/reservation", method = RequestMethod.GET)
-    public String showTicketView() {
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "api/reservation/{userId}/{spotId}/{parkingId}", method = RequestMethod.GET)
-    public String makeReservation(@PathVariable Integer spotId)
+    @PostMapping
+    public String makeReservation(@RequestParam(name = "spotId") String spotId)
             throws IOException, WriterException {
-        parkingService.generateReservation(1, spotId, 1);
+
+        parkingService.generateReservation(1, Integer.parseInt(spotId), 1);
 
         return "redirect:/";
     }
-
-
-
 }

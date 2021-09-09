@@ -64,9 +64,7 @@ public class ParkingService {
         Parking parking = parkingRepository.findParkingById(parkingId);
         Reservation reservation = new Reservation(date, user, spotId);
         parking.addReservation(reservation);
-        if(isReservationNotTaken(reservation.getId())){
-            reservationRepository.save(reservation);
-        }
+        reservationRepository.save(reservation);
         Qrcode.createQR(reservation.getQrHashcode(), "qrcode.png", 200, 200);
         emailService.prepareAndSend(user.getEmail(), "<h1>W załączniku masz potrzebny Qrcode!</h1>", "Twój bilet");
     }
