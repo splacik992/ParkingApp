@@ -9,9 +9,13 @@ public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int numOfSpots;
     @OneToMany
     private List<Reservation> reservations;
+
+    public Parking() {
+    }
 
     public Parking(int numOfSpots) {
         this.numOfSpots = numOfSpots;
@@ -28,10 +32,6 @@ public class Parking {
 
     public List<Reservation> getReservations() {
         return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
     }
 
     public void addReservation(Reservation reservation) {

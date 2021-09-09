@@ -10,8 +10,22 @@
 
 <h1>My First Heading</h1>
 <p>My first paragraph.</p>
-Siema siema
 
+<c:forEach items="${currentUserList}" var="i" varStatus="status">
+
+</c:forEach>
+
+    <form method="post" action="/api/reservation">
+
+              <label for="spotlist">Wybierz miejsce parkingowe</label>
+              <input list="spots" name="spotlist" id="spotlist">
+              <datalist id="spots">
+                <c:forEach items="${parking.freeSlots}" var="slot">
+                    <option value="${slot}">
+                </c:forEach>
+              </datalist>
+              <input type="submit">
+    </form>
 </body>
 </html>
 

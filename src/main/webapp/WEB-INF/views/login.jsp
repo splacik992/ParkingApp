@@ -4,31 +4,34 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ include file="/WEB-INF/views/header.jsp" %>
-    </header>
 
-    <section class="login-page">
-      <h2>Zaloguj się</h2>
-      <form method="post" action="/login">
+   <!DOCTYPE html PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+   <html>
+   <head>
+   <title>Welcome Login Form</title>
+   </head>
+   <body>
+   <form action="custom.jsp" method="post">
+   <table style="width: 50%">
+   <tr>
+   <td>User</td>
+   <td><input type="text" name="users"/></td>
+   </tr>
+   <tr>
+   <td>Pass</td>
+   <td><input type="password" name="password"/></td>
+   </tr>
+   </table>
+   <input type="submit" value="Login"/></form>
+   </body>
+   </html>
 
-        <div class="form-group">
-          <input type="email" name="username" placeholder="Email" />
-          <form:errors path="email"/>
-        </div>
-        <div class="form-group">
-          <input type="password" name="password" placeholder="Hasło" />
-          <form:errors path="password"/>
-          <a href="/remind/password" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
-        </div>
-        <div class="form-group--buttons">
-          <a href="/register" class="btn btn--without-border">Załóż konto</a>
-          <c:if test="${not empty param.error}">
-            <h>Złe dane!</h>
-          </c:if>
-          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-          <button class="btn" type="submit">Zaloguj się</button>
-        </div>
-      </form>
-    </section>
-
-<%@ include file="/WEB-INF/views/footer.jsp" %>
+   <!DOCTYPEhtml PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+   <html>
+   <body>
+   <%
+   String site = "Please Log In";
+   out.print(site);
+   %>
+   </body>
+   </html>

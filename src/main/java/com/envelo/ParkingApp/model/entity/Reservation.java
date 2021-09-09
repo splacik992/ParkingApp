@@ -4,20 +4,22 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 @Entity
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Date date;
+    private String date;
     private String hashCode;
     @OneToOne
     private User user;
     private int parkingSpot;
 
-    public Reservation(Date date, User user, int parkingSpot) {
+    public Reservation() {
+    }
+
+    public Reservation(String date, User user, int parkingSpot) {
         this.date = date;
         this.user = user;
         this.parkingSpot = parkingSpot;
@@ -55,11 +57,11 @@ public class Reservation {
         this.parkingSpot = parkingSpot;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
