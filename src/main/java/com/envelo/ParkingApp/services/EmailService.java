@@ -31,18 +31,14 @@ public class EmailService {
 
     public void sendEmailWithAttachment() throws MessagingException, IOException, WriterException {
         MimeMessage msg = mailSender.createMimeMessage();
-        // true = multipart message
         MimeMessageHelper helper = new MimeMessageHelper(msg, true);
         helper.setTo("r.paliwoda992@gmail.com");
         helper.setSubject("Your Ticket");
-        // default = text/plain
-        //helper.setText("Check attachment for image!");
-        // true = text/html
         helper.setText("<h1>Check attachment for image!</h1>", true);
         Qrcode.createQR("aa","android.png",200,200);
         FileSystemResource file
                 = new FileSystemResource(new File("android.png"));
-        helper.addAttachment("Invoice", file);
+        helper.addAttachment("Ticket.png", file);
         mailSender.send(msg);
 
     }

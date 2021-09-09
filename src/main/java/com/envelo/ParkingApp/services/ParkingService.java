@@ -12,6 +12,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -58,7 +59,7 @@ public class ParkingService {
         return freeSpots;
     }
 
-    public void generateReservation(long userId, int spotId, long parkingId) throws IOException, WriterException {
+    public void generateReservation(long userId, int spotId, long parkingId) throws IOException, WriterException, MessagingException {
         User user = userRepository.findUserById(userId);
         String date = new GregorianCalendar().getTime().toString();
         Parking parking = parkingRepository.findParkingById(parkingId);
@@ -66,7 +67,8 @@ public class ParkingService {
         parking.addReservation(reservation);
         reservationRepository.save(reservation);
         Qrcode.createQR(reservation.getQrHashcode(), "qrcode.png", 200, 200);
-        emailService.prepareAndSend(user.getEmail(), "<h1>W załączniku masz potrzebny Qrcode!</h1>", "Twój bilet");
+//        emailService.prepareAndSend(user.getEmail(), "<h1>W załączniku masz potrzebny Qrcode!</h1>", "Twój bilet");
+        emailService.sendEmailWithAttachment();
     }
 
     public boolean isReservationNotTaken(long reservationId){

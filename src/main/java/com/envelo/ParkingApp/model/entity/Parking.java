@@ -9,7 +9,6 @@ public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private int numOfSpots;
     @OneToMany
     private List<Reservation> reservations;

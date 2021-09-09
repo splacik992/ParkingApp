@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @Controller
@@ -29,7 +30,7 @@ public class ParkingController {
 
     @PostMapping
     public String makeReservation(@RequestParam(name = "spotId") String spotId)
-            throws IOException, WriterException {
+            throws IOException, WriterException, MessagingException {
 
         parkingService.generateReservation(1, Integer.parseInt(spotId), 1);
 
